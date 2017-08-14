@@ -4,40 +4,43 @@ import Portal from './Portal.js';
 require('./Confirm.css');
 
 var ConfirmLink = React.createClass({
-	getInitialState: function() {
-        return { showConfirm: false };
-    },
-    getDefaultProps: function() {
-		return {
-			action: function() { return false; },
-			confirmMessage: 'Are you sure that you want to do this?',
-			confirmText: 'Yes please',
-			cancelText: 'No thank you'
-		};
-	},
-	showHideConfirm: function() {
-		this.setState({showConfirm:!this.state.showConfirm});
-	},
-	render: function() {
-		return (
-			<span className="ReactConfirmLink" onClick={this.showHideConfirm}>
-                {this.props.children}
-                {(this.state.showConfirm) ?
-					<Portal>
-						<div className="ReactConfirmDialog">
-							<ConfirmDialog
-							{...this.props}
-							cancel={this.showHideConfirm}
-							>
-							</ConfirmDialog>
-						</div>
-					</Portal>
-					:
-					''
-				}
-            </span>
-		);
-	}
+  getInitialState: function() {
+    return { showConfirm: false };
+  },
+  getDefaultProps: function() {
+    return {
+      action: function() { return false; },
+      confirmMessage: 'Are you sure that you want to do this?',
+      confirmText: 'Yes please',
+      cancelText: 'No thank you',
+      disabled: false,
+    };
+  },
+  showHideConfirm: function() {
+    if (!this.props.disabled) {
+      this.setState({showConfirm:!this.state.showConfirm});
+    }
+  },
+  render: function() {
+    return (
+      <span className="ReactConfirmLink" data-disabled={this.props.disabled} onClick={this.showHideConfirm}>
+        {this.props.children}
+        {(this.state.showConfirm) ?
+            <Portal>
+              <div className="ReactConfirmDialog">
+                <ConfirmDialog
+                  {...this.props}
+                  cancel={this.showHideConfirm}
+                >
+                </ConfirmDialog>
+              </div>
+            </Portal>
+            :
+            ''
+        }
+      </span>
+    );
+  }
 });
 
 export default ConfirmLink;
