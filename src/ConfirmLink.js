@@ -18,7 +18,7 @@ var ConfirmLink = React.createClass({
   },
   showHideConfirm: function() {
     if (this.props.disabled) return;
-    if (this.props.skip) return this.props.action;
+    if (this.props.skip) return this.props.action();
 
     this.setState({showConfirm:!this.state.showConfirm});
   },
